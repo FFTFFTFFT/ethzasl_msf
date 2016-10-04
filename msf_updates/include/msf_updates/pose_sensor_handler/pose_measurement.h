@@ -272,6 +272,11 @@ struct PoseMeasurement : public PoseMeasurementBase {
     //H.block<1, 1>(6, kIdxstartcorr_qwv + 2) = Eigen::Matrix<double, 1, 1>::
     // Constant(driftwvattfix ? 0.0 : 1.0); // fix vision world yaw drift because unobservable otherwise (see PhD Thesis)
 
+
+    // RPG Hack to estimate gravity direction without yaw drift
+    H.block<1, msf_core::MSF_Core<EKFState_T>::nErrorStatesAtCompileTime>(6,0) =
+        Eigen::Matrix<double, 1, msf_core::MSF_Core<EKFState_T>::nErrorStatesAtCompileTime>::Zero();
+    state_in->ClearSingleCrossCov<18>(); // z component of q_wv error quaternion
   }
 
   /**

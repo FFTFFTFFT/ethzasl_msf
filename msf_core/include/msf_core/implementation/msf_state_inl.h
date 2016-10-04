@@ -311,6 +311,22 @@ inline void GenericState_T<stateVector_T, StateDefinition_T>::ClearCrossCov() {
 
 }
 
+template<typename stateVector_T, typename StateDefinition_T>
+template<int INDEX>
+inline void GenericState_T<stateVector_T, StateDefinition_T>::ClearSingleCrossCov() {
+  typedef typename msf_tmp::StripReference<
+      typename boost::fusion::result_of::at_c<stateVector_T, INDEX>::type>::result_t StateVar_T;
+
+  // Save covariance block.
+  Eigen::Matrix<double, 1, 1> cov = P.template block<1, 1>(INDEX, INDEX);
+  P.template block<1, nErrorStatesAtCompileTime>(INDEX, 0)
+      .setZero();
+  P.template block<nErrorStatesAtCompileTime, 1>(0, INDEX)
+      .setZero();
+  // Write back cov block.
+  P.template block<1, 1>(INDEX, INDEX) = cov;
+}
+
 /// Resets the state.
 /**
  * 3D vectors: 0; quaternion: unit quaternion; scale: 1; time:0;

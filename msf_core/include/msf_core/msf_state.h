@@ -325,6 +325,13 @@ struct GenericState_T {
   template<int INDEX>
   inline void
   ClearCrossCov();
+
+  /*
+   * Clears the crosscovariance entries of a single (1D) state in P
+   */
+  template<int INDEX>
+  inline void
+  ClearSingleCrossCov();
 };
 
 /**
