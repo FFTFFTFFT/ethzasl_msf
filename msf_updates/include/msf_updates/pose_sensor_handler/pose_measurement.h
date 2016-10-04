@@ -274,8 +274,10 @@ struct PoseMeasurement : public PoseMeasurementBase {
 
 
     // RPG Hack to estimate gravity direction without yaw drift
-    H.block<1, msf_core::MSF_Core<EKFState_T>::nErrorStatesAtCompileTime>(6,0) =
-        Eigen::Matrix<double, 1, msf_core::MSF_Core<EKFState_T>::nErrorStatesAtCompileTime>::Zero();
+//    H.block<1, msf_core::MSF_Core<EKFState_T>::nErrorStatesAtCompileTime>(6,0) =
+//        Eigen::Matrix<double, 1, msf_core::MSF_Core<EKFState_T>::nErrorStatesAtCompileTime>::Zero();
+    H.block<nMeasurements, 1>(0,18) =
+        Eigen::Matrix<double, nMeasurements, 1>::Zero();
     state_in->ClearSingleCrossCov<18>(); // z component of q_wv error quaternion
   }
 
