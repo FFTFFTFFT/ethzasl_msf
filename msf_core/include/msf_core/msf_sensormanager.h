@@ -56,6 +56,9 @@ class MSF_SensorManager : public StateVisitor<EKFState_T> {
  public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
+  uint32_t stamp_sec_;
+  uint32_t stamp_nsec_;
+
   shared_ptr<MSF_Core<EKFState_T> > msf_core_;  ///< The ekf core instance.
 
   MSF_SensorManager();

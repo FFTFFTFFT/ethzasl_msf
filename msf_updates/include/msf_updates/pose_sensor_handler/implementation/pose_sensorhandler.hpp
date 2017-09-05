@@ -175,6 +175,8 @@ template<typename MEASUREMENT_TYPE, typename MANAGER_TYPE>
 void PoseSensorHandler<MEASUREMENT_TYPE, MANAGER_TYPE>::MeasurementCallback(
     const geometry_msgs::PoseWithCovarianceStampedConstPtr & msg) {
 
+  this->manager_.stamp_sec_ = msg->header.stamp.sec;
+  this->manager_.stamp_nsec_ = msg->header.stamp.nsec;
   this->SequenceWatchDog(msg->header.seq,
                          subPoseWithCovarianceStamped_.getTopic());
   MSF_INFO_STREAM_ONCE(

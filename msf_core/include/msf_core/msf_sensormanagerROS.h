@@ -122,6 +122,9 @@ struct MSF_SensorManagerROS : public msf_core::MSF_SensorManager<EKFState_T> {
     for (unsigned int i = 0; i < topics.size(); i++)
       topicsStr += ("\t\t" + topics.at(i) + "\n");
 
+    this->stamp_sec_ = 0;
+    this->stamp_nsec_ = 0;
+
     MSF_INFO_STREAM(""<< topicsStr);
   }
 
@@ -324,7 +327,8 @@ struct MSF_SensorManagerROS : public msf_core::MSF_SensorManager<EKFState_T> {
     if (pubPoseAfterUpdate_.getNumSubscribers()) {
       // Publish pose after correction with covariance.
       geometry_msgs::PoseWithCovarianceStamped msgPose;
-      msgPose.header.stamp = ros::Time(state->time);
+      //msgPose.header.stamp = ros::Time(state->time);
+      msgPose.header.stamp = ros::Time(this->stamp_sec_, this->stamp_nsec_);
       msgPose.header.seq = msg_seq;
       msgPose.header.frame_id = msf_output_frame_;
 
